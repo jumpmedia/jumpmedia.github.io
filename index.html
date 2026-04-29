@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jump Media House — AI & Real Media Production</title>
+  <meta name="description" content="Jump Media House is a next-generation media production house specializing in AI-powered and real media production. Music, Videos, Advertisements, Brand Building, Content Strategy and SEO."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================
+       CSS VARIABLES & RESET
+    ============================================ */
+    :root {
+      --black:       #06060A;
+      --dark:        #0D0D14;
+      --card-bg:     #111118;
+      --gold:        #C9A84C;
+      --gold-light:  #E8C96A;
+      --cyan:        #00E5FF;
+      --white:       #F0EDE6;
+      --muted:       #7A7A8C;
+      --border:      rgba(201,168,76,0.15);
+      --glow-gold:   0 0 40px rgba(201,168,76,0.3);
+      --glow-cyan:   0 0 40px rgba(0,229,255,0.2);
+      --font-display: 'Syncopate', sans-serif;
+      --font-body:    'Jost', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+      --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    ::selection { background: var(--gold); color: var(--black); }
+
+    /* ============================================
+       CUSTOM CURSOR
+    ============================================ */
+    .cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      pointer-events: none; mix-blend-mode: difference;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px; background: var(--gold);
+      border-radius: 50%;
+      position: fixed; transform: translate(-50%, -50%);
+      transition: transform 0.1s var(--ease-smooth), width 0.3s, height 0.3s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,0.6);
+      border-radius: 50%;
+      position: fixed; transform: translate(-50%, -50%);
+      transition: transform 0.18s var(--ease-smooth), width 0.4s, height 0.4s, border-color 0.3s;
+    }
+    body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--gold);
+    }
+
+    /* ============================================
+       SCROLLBAR
+    ============================================ */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.6rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.5s var(--ease-smooth);
+    }
+    nav.scrolled {
+      background: rgba(6,6,10,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 5%;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--white); text-decoration: none;
+      letter-spacing: 0.15em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      color: var(--muted); text-decoration: none; text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 0.65rem 1.4rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .nav-cta:hover { background: var(--gold-light); box-shadow: var(--glow-gold); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 1px; background: var(--white);
+      transition: all 0.3s;
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 5%; max-width: 1100px;
+    }
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem; letter-spacing: 0.25em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.8s 0.3s var(--ease-smooth) forwards;
+    }
+    .hero-tag::before, .hero-tag::after {
+      content: '—'; margin: 0 1rem; color: rgba(201,168,76,0.5);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 9vw, 8.5rem);
+      font-weight: 700; line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      opacity: 0; animation: fadeUp 0.9s 0.5s var(--ease-smooth) forwards;
+    }
+    .hero-title .accent { color: var(--gold); display: block; }
+    .hero-title .stroke {
+      -webkit-text-stroke: 1px var(--white);
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.15rem; font-weight: 300;
+      color: var(--muted); margin: 2rem auto 0;
+      max-width: 560px; line-height: 1.8;
+      opacity: 0; animation: fadeUp 0.9s 0.7s var(--ease-smooth) forwards;
+    }
+    .hero-actions {
+      margin-top: 3rem; display: flex; gap: 1.2rem;
+      justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 0.9s var(--ease-smooth) forwards;
+    }
+    .btn-primary {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 1rem 2.2rem;
+      cursor: pointer; transition: all 0.3s; text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-light); box-shadow: var(--glow-gold); transform: translateY(-2px); }
+    .btn-outline {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white); background: transparent;
+      border: 1px solid rgba(240,237,230,0.25);
+      padding: 1rem 2.2rem; cursor: pointer; transition: all 0.3s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 1s 1.2s var(--ease-smooth) forwards;
+    }
+    .hero-scroll span {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ============================================
+       TICKER
+    ============================================ */
+    .ticker {
+      background: var(--gold); overflow: hidden;
+      padding: 0.7rem 0; border-top: none;
+    }
+    .ticker-track {
+      display: flex; white-space: nowrap;
+      animation: tickerRoll 25s linear infinite;
+    }
+    .ticker-item {
+      font-family: var(--font-display);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; color: var(--black);
+      padding: 0 2rem; text-transform: uppercase;
+    }
+    .ticker-sep { color: rgba(0,0,0,0.3); padding: 0 0.5rem; }
+
+    /* ============================================
+       SECTION BASE
+    ============================================ */
+    section { padding: 7rem 5%; }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.3em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+    .section-title .dim {
+      color: var(--muted); display: block;
+      -webkit-text-stroke: 1px var(--muted); color: transparent;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+
+    /* ============================================
+       STATS STRIP
+    ============================================ */
+    #stats {
+      padding: 4rem 5%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; color: var(--gold);
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; color: var(--muted);
+      text-transform: uppercase; margin-top: 0.5rem;
+    }
+
+    /* ============================================
+       SERVICES
+    ============================================ */
+    #services { background: var(--dark); }
+    .services-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 4rem;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+    }
+    .service-card {
+      background: var(--card-bg); padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      transition: all 0.5s var(--ease-smooth);
+      cursor: default;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.5s;
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .service-number {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.15em; color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .service-icon {
+      font-size: 2.2rem; margin-bottom: 1.5rem;
+      display: block;
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.08em; margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .service-desc {
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.8;
+    }
+    .service-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .tag {
+      font-family: var(--font-mono); font-size: 0.58rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+    }
+    .service-card.featured {
+      background: linear-gradient(135deg, #16140D, var(--card-bg));
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .service-card.featured .service-name { color: var(--gold); }
+
+    /* ============================================
+       PROCESS
+    ============================================ */
+    #process { position: relative; }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 5rem; position: relative;
+    }
+    .process-steps::before {
+      content: ''; position: absolute; top: 2rem;
+      left: 12.5%; right: 12.5%; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .process-step { padding: 0 1.5rem; text-align: center; }
+    .step-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--black); border: 2px solid var(--gold);
+      margin: 0 auto 2rem;
+      position: relative; z-index: 1;
+      box-shadow: 0 0 20px rgba(201,168,76,0.4);
+    }
+    .step-num {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.08em; margin-bottom: 0.75rem;
+    }
+    .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* ============================================
+       PORTFOLIO
+    ============================================ */
+    #portfolio { background: var(--dark); }
+    .portfolio-filter {
+      display: flex; gap: 0.5rem; margin: 3rem 0 3rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); background: transparent;
+      border: 1px solid rgba(122,122,140,0.3);
+      padding: 0.5rem 1.2rem; cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      color: var(--black); background: var(--gold); border-color: var(--gold);
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 220px; gap: 12px;
+    }
+    .portfolio-item {
+      position: relative; overflow: hidden;
+      background: var(--card-bg); cursor: pointer;
+    }
+    .portfolio-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .portfolio-item:nth-child(2) { grid-column: span 5; }
+    .portfolio-item:nth-child(3) { grid-column: span 5; }
+    .portfolio-item:nth-child(4) { grid-column: span 4; }
+    .portfolio-item:nth-child(5) { grid-column: span 4; }
+    .portfolio-item:nth-child(6) { grid-column: span 4; }
+    .portfolio-thumb {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s var(--ease-smooth);
+    }
+    .portfolio-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(6,6,10,0.95) 0%, transparent 60%);
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 1.5rem;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-item:hover .portfolio-thumb { transform: scale(1.06); }
+    .portfolio-cat {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.15em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .portfolio-name {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .portfolio-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative;
+    }
+    .portfolio-placeholder::after {
+      content: ''; position: absolute; inset: 0;
+      background: inherit; filter: blur(0);
+    }
+    .bg-1 { background: linear-gradient(135deg, #1a0a2e, #2d1b4e); }
+    .bg-2 { background: linear-gradient(135deg, #0a1a1a, #0d3535); }
+    .bg-3 { background: linear-gradient(135deg, #2e1a00, #4a2c00); }
+    .bg-4 { background: linear-gradient(135deg, #1a001a, #350035); }
+    .bg-5 { background: linear-gradient(135deg, #001a2e, #00294a); }
+    .bg-6 { background: linear-gradient(135deg, #1a1a00, #2e2e00); }
+
+    /* ============================================
+       WHY JUMP MEDIA HOUSE
+    ============================================ */
+    #why {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+      max-width: 1280px; margin: 0 auto;
+    }
+    #why-section { padding: 7rem 5%; }
+    .why-visual {
+      position: relative; aspect-ratio: 1;
+      max-width: 520px;
+    }
+    .why-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid var(--border);
+      animation: rotate 20s linear infinite;
+    }
+    .why-ring:nth-child(1) { inset: 0; animation-duration: 25s; }
+    .why-ring:nth-child(2) { inset: 15%; animation-duration: 18s; animation-direction: reverse; }
+    .why-ring:nth-child(3) { inset: 30%; animation-duration: 12s; }
+    .why-ring::after {
+      content: ''; position: absolute; top: -4px; left: 50%;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--gold); transform: translateX(-50%);
+    }
+    .why-center {
+      position: absolute; inset: 40%;
+      background: radial-gradient(circle, rgba(201,168,76,0.15), transparent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.15em; color: var(--gold);
+      text-align: center;
+    }
+    .why-benefits { margin-top: 3rem; }
+    .why-benefit {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.5rem 0; border-bottom: 1px solid var(--border);
+    }
+    .why-benefit:last-child { border-bottom: none; }
+    .benefit-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .benefit-title {
+      font-family: var(--font-display); font-size: 0.85rem;
+      font-weight: 700; letter-spacing: 0.08em;
+      margin-bottom: 0.4rem; color: var(--white);
+    }
+    .benefit-text { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ============================================
+       TESTIMONIALS
+    ============================================ */
+    #testimonials { background: var(--dark); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 4rem;
+    }
+    .testi-card {
+      background: var(--card-bg); padding: 2.5rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.4s;
+    }
+    .testi-card:hover { border-color: rgba(201,168,76,0.4); }
+    .testi-stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 1.5rem; letter-spacing: 0.2em; }
+    .testi-quote {
+      font-size: 0.95rem; color: var(--white);
+      line-height: 1.8; margin-bottom: 2rem;
+      font-style: italic; font-weight: 300;
+    }
+    .testi-author { display: flex; align-items: center; gap: 1rem; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8B6914);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 0.8rem;
+      color: var(--black); font-weight: 700;
+    }
+    .testi-name {
+      font-family: var(--font-display); font-size: 0.8rem;
+      letter-spacing: 0.08em; margin-bottom: 0.2rem;
+    }
+    .testi-role { font-size: 0.75rem; color: var(--muted); }
+
+    /* ============================================
+       PRICING
+    ============================================ */
+    #pricing { }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 4rem;
+    }
+    .price-card {
+      background: var(--card-bg); padding: 3rem 2.5rem;
+      border: 1px solid var(--border); position: relative;
+      transition: all 0.4s var(--ease-smooth);
+    }
+    .price-card.popular {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, #100E06, var(--card-bg));
+    }
+    .popular-badge {
+      position: absolute; top: -1px; right: 2.5rem;
+      background: var(--gold); color: var(--black);
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+    }
+    .price-plan {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+    }
+    .price-amount {
+      font-family: var(--font-display); font-size: 3rem;
+      font-weight: 700; color: var(--white); line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .price-amount span { font-size: 1.2rem; color: var(--muted); }
+    .price-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+    .price-features { list-style: none; margin-bottom: 2.5rem; }
+    .price-features li {
+      font-size: 0.88rem; padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; gap: 0.75rem;
+    }
+    .price-features li::before { content: '✓'; color: var(--gold); flex-shrink: 0; }
+    .price-features li.off { color: var(--muted); }
+    .price-features li.off::before { content: '—'; color: var(--muted); }
+    .price-btn {
+      width: 100%;
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 0.9rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .price-btn:hover { background: var(--gold-light); }
+    .price-btn.outline {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(240,237,230,0.2);
+    }
+    .price-btn.outline:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+
+    /* ============================================
+       CONTACT
+    ============================================ */
+    #contact { background: var(--dark); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 6rem; max-width: 1280px; margin: 0 auto;
+      align-items: start;
+    }
+    .contact-info { margin-top: 3rem; }
+    .contact-detail {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-detail:last-child { border-bottom: none; }
+    .contact-detail-label {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .contact-detail-value {
+      font-size: 1rem; color: var(--white);
+    }
+    .contact-social {
+      display: flex; gap: 1rem; margin-top: 2rem;
+    }
+    .social-btn {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; text-decoration: none;
+      transition: all 0.3s; cursor: pointer;
+    }
+    .social-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .contact-form { margin-top: 3rem; }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-label {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.15em; color: var(--muted);
+      text-transform: uppercase; display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--white); font-family: var(--font-body);
+      font-size: 0.9rem; font-weight: 300;
+      padding: 0.9rem 1rem;
+      transition: border-color 0.3s;
+      outline: none; appearance: none;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold);
+    }
+    .form-textarea { resize: vertical; min-height: 140px; }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--card-bg); }
+    .form-submit {
+      width: 100%; margin-top: 1rem;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--black); background: var(--gold);
+      border: none; padding: 1.1rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .form-submit:hover { background: var(--gold-light); box-shadow: var(--glow-gold); }
+    .form-success {
+      display: none; text-align: center; padding: 2rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.05);
+    }
+    .form-success.show { display: block; }
+    .form-success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .form-success-text { font-size: 0.95rem; color: var(--muted); }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      padding: 5rem 5% 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem; max-width: 1280px; margin: 0 auto;
+      padding-bottom: 4rem; border-bottom: 1px solid var(--border);
+    }
+    .footer-brand { }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--white); letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-tagline {
+      font-size: 0.9rem; color: var(--muted);
+      line-height: 1.8; max-width: 280px;
+    }
+    .footer-col h4 {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.8rem; }
+    .footer-links a {
+      font-size: 0.88rem; color: var(--muted);
+      text-decoration: none; transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1280px; margin: 2rem auto 0;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy {
+      font-family: var(--font-mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; color: var(--muted);
+    }
+    .footer-legal {
+      display: flex; gap: 2rem;
+    }
+    .footer-legal a {
+      font-family: var(--font-mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; color: var(--muted);
+      text-decoration: none; transition: color 0.3s;
+    }
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ============================================
+       ANIMATIONS
+    ============================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes tickerRoll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50%       { opacity: 0.3; transform: scaleY(0.6); }
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes glitch {
+      0%, 100% { clip-path: inset(0 0 100% 0); }
+      10%       { clip-path: inset(10% 0 70% 0); transform: skewX(-2deg); }
+      20%       { clip-path: inset(50% 0 30% 0); transform: skewX(2deg); }
+      30%       { clip-path: inset(80% 0 5% 0); transform: skewX(-1deg); }
+      40%       { clip-path: inset(0 0 100% 0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================
+       MOBILE NAV OVERLAY
+    ============================================ */
+    .mobile-nav {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(6,6,10,0.97);
+      backdrop-filter: blur(20px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2rem; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .mobile-nav.open { opacity: 1; pointer-events: all; }
+    .mobile-nav a {
+      font-family: var(--font-display); font-size: 2rem;
+      font-weight: 700; letter-spacing: 0.1em;
+      color: var(--white); text-decoration: none;
+      text-transform: uppercase; transition: color 0.3s;
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute; top: 2rem; right: 5%;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.5rem; color: var(--white);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      #why { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .process-steps::before { display: none; }
+      .portfolio-grid { grid-template-columns: repeat(6, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .portfolio-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 180px;
+      }
+      .portfolio-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+      .portfolio-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+      body { cursor: auto; }
+      .cursor { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor">
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">JUMP <span>MEDIA</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Start a Project</button>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-close" id="closeNav">✕</button>
+    <a href="#services" class="mob-link">Services</a>
+    <a href="#portfolio" class="mob-link">Work</a>
+    <a href="#process" class="mob-link">Process</a>
+    <a href="#pricing" class="mob-link">Pricing</a>
+    <a href="#contact" class="mob-link">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-tag">AI & Real Media Production House</div>
+      <h1 class="hero-title">
+        <span class="stroke">WHERE</span>
+        <span class="accent">INTELLIGENCE</span>
+        MEETS ART
+      </h1>
+      <p class="hero-sub">
+        Jump Media House is a next-generation media production studio fusing artificial intelligence with human creativity — crafting music, video, advertising, and brand narratives that resonate at scale.
+      </p>
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn-primary">View Our Work</a>
+        <a href="#contact" class="btn-outline">Start a Project</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-item">Music Production <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Video Direction <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">AI Content Generation <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Brand Strategy <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">SEO Optimisation <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Advertising Campaigns <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Visual Identity <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Content Marketing <span class="ticker-sep">★</span></div>
+      <!-- Duplicated for seamless loop -->
+      <div class="ticker-item">Music Production <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Video Direction <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">AI Content Generation <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Brand Strategy <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">SEO Optimisation <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Advertising Campaigns <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Visual Identity <span class="ticker-sep">★</span></div>
+      <div class="ticker-item">Content Marketing <span class="ticker-sep">★</span></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number" data-target="320">0</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number" data-target="98">0</div>
+        <div class="stat-label">Client Satisfaction %</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number" data-target="45">0</div>
+        <div class="stat-label">Brand Partners</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number" data-target="8">0</div>
+        <div class="stat-label">Industry Awards</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header">
+        <div>
+          <div class="section-label reveal">What We Do</div>
+          <h2 class="section-title reveal reveal-delay-1">
+            Full-Spectrum<br>
+            <span class="dim">Media Mastery</span>
+          </h2>
+        </div>
+        <p style="max-width:360px;color:var(--muted);font-size:0.9rem;line-height:1.8;" class="reveal">
+          From a single track to an entire brand identity — we cover every layer of modern media production with AI-enhanced precision and human artistic depth.
+        </p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card featured reveal">
+          <div class="service-number">01</div>
+          <span class="service-icon">🎵</span>
+          <div class="service-name">Music Production</div>
+          <p class="service-desc">Original compositions, AI-assisted arrangement, mastering, and licensing — from indie tracks to full commercial soundtracks that move audiences and drive emotion.</p>
+          <div class="service-tags">
+            <span class="tag">Composition</span>
+            <span class="tag">Mixing</span>
+            <span class="tag">Mastering</span>
+            <span class="tag">Licensing</span>
+          </div>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-number">02</div>
+          <span class="service-icon">🎬</span>
+          <div class="service-name">Video Production</div>
+          <p class="service-desc">Concept to cut — cinematic storytelling, AI-enhanced post-production, VFX, and colour grading that captivates across all platforms and formats.</p>
+          <div class="service-tags">
+            <span class="tag">Direction</span>
+            <span class="tag">VFX</span>
+            <span class="tag">Colour Grade</span>
+          </div>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-number">03</div>
+          <span class="service-icon">📣</span>
+          <div class="service-name">Advertisements</div>
+          <p class="service-desc">Data-driven creative advertising for digital, broadcast, and OOH — built on audience intelligence and crafted for conversion and brand recall.</p>
+          <div class="service-tags">
+            <span class="tag">Digital Ads</span>
+            <span class="tag">TVC</span>
+            <span class="tag">OOH</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-number">04</div>
+          <span class="service-icon">🏆</span>
+          <div class="service-name">Brand Building</div>
+          <p class="service-desc">Complete brand identity systems — visual language, tone of voice, positioning strategy, and guidelines that ensure your brand speaks with authority in every market.</p>
+          <div class="service-tags">
+            <span class="tag">Identity</span>
+            <span class="tag">Strategy</span>
+            <span class="tag">Guidelines</span>
+          </div>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-number">05</div>
+          <span class="service-icon">✍️</span>
+          <div class="service-name">Content Production</div>
+          <p class="service-desc">Long-form, short-form, scripts, blogs, social — AI-assisted yet always human-polished content at scale that engages, informs, and converts your audience.</p>
+          <div class="service-tags">
+            <span class="tag">Copywriting</span>
+            <span class="tag">Scripting</span>
+            <span class="tag">Social</span>
+          </div>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-number">06</div>
+          <span class="service-icon">📈</span>
+          <div class="service-name">SEO & Growth</div>
+          <p class="service-desc">Technical SEO, keyword architecture, content strategy, and performance analytics that compound your digital presence and drive organic traffic that converts.</p>
+          <div class="service-tags">
+            <span class="tag">Technical SEO</span>
+            <span class="tag">Analytics</span>
+            <span class="tag">CRO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="container">
+      <div class="section-label reveal">How We Work</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        The Jump<br>
+        <span class="dim">Production Flow</span>
+      </h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="step-dot"></div>
+          <div class="step-num">01 — Discovery</div>
+          <div class="step-title">Brief & Vision</div>
+          <p class="step-desc">We deep-dive into your brand, audience, and objectives to map the creative territory before a single frame is shot or note is composed.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="step-dot"></div>
+          <div class="step-num">02 — Strategy</div>
+          <div class="step-title">Concept & AI Analysis</div>
+          <p class="step-desc">Our AI tools analyse market data, competitor landscape, and audience behaviour to power human creatives in developing breakthrough concepts.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="step-dot"></div>
+          <div class="step-num">03 — Production</div>
+          <div class="step-title">Create & Craft</div>
+          <p class="step-desc">Full production — shooting, recording, writing, designing — with AI acceleration at every stage to deliver faster without sacrificing quality.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="step-dot"></div>
+          <div class="step-num">04 — Launch</div>
+          <div class="step-title">Deploy & Optimise</div>
+          <p class="step-desc">We don't just hand over deliverables. We launch, monitor, and optimise performance — ensuring every piece of content achieves measurable impact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-label reveal">Selected Work</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Our Latest<br>
+        <span class="dim">Productions</span>
+      </h2>
+      <div class="portfolio-filter reveal">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="music">Music</button>
+        <button class="filter-btn" data-filter="video">Video</button>
+        <button class="filter-btn" data-filter="brand">Brand</button>
+        <button class="filter-btn" data-filter="ads">Ads</button>
+      </div>
+      <div class="portfolio-grid">
+        <div class="portfolio-item" data-cat="video">
+          <div class="portfolio-placeholder bg-1">🎬</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Video Production</div>
+            <div class="portfolio-name">LUMINARY — Brand Film</div>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="music">
+          <div class="portfolio-placeholder bg-2">🎵</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Music Production</div>
+            <div class="portfolio-name">AURORA — Ambient Album</div>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="ads">
+          <div class="portfolio-placeholder bg-3">📣</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Advertisement</div>
+            <div class="portfolio-name">HELIX — Product Launch</div>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="brand">
+          <div class="portfolio-placeholder bg-4">🏆</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Brand Identity</div>
+            <div class="portfolio-name">VANTA — Visual System</div>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="video">
+          <div class="portfolio-placeholder bg-5">🎥</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Short Film</div>
+            <div class="portfolio-name">MERIDIAN — Documentary</div>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="music">
+          <div class="portfolio-placeholder bg-6">🎹</div>
+          <div class="portfolio-overlay">
+            <div class="portfolio-cat">Music + Video</div>
+            <div class="portfolio-name">PULSE — AI Music Video</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY JUMP MEDIA HOUSE -->
+  <section id="why-section">
+    <div id="why">
+      <div class="why-visual">
+        <div class="why-ring"></div>
+        <div class="why-ring"></div>
+        <div class="why-ring"></div>
+        <div class="why-center">JUMP<br>MEDIA</div>
+      </div>
+      <div>
+        <div class="section-label reveal">Why Choose Us</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          AI-Augmented.<br>
+          <span class="dim">Humanly Crafted.</span>
+        </h2>
+        <div class="why-benefits">
+          <div class="why-benefit reveal">
+            <div class="benefit-icon">⚡</div>
+            <div>
+              <div class="benefit-title">AI-Powered Speed</div>
+              <p class="benefit-text">We harness the latest generative AI tools to accelerate production timelines by up to 60% — without ever compromising on creative quality or originality.</p>
+            </div>
+          </div>
+          <div class="why-benefit reveal reveal-delay-1">
+            <div class="benefit-icon">🧠</div>
+            <div>
+              <div class="benefit-title">Data-Driven Creativity</div>
+              <p class="benefit-text">Every creative decision is informed by real audience data, trend analysis, and performance benchmarks — so your content doesn't just look good, it performs.</p>
+            </div>
+          </div>
+          <div class="why-benefit reveal reveal-delay-2">
+            <div class="benefit-icon">🌐</div>
+            <div>
+              <div class="benefit-title">End-to-End Ownership</div>
+              <p class="benefit-text">From concept to campaign management — one team, one vision, zero handoff friction. We own every stage of your project's lifecycle with full accountability.</p>
+            </div>
+          </div>
+          <div class="why-benefit reveal reveal-delay-3">
+            <div class="benefit-icon">📊</div>
+            <div>
+              <div class="benefit-title">Measurable Impact</div>
+              <p class="benefit-text">We track, report, and optimise every deliverable against KPIs. Art has to work. Our studio treats creative output as a growth engine, not just aesthetics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-label reveal">Client Stories</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Voices of<br>
+        <span class="dim">Our Partners</span>
+      </h2>
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"Jump Media House completely transformed how we present our brand. The AI-assisted video they produced outperformed every previous campaign in both engagement and conversion."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">AK</div>
+            <div>
+              <div class="testi-name">Arjun Kapoor</div>
+              <div class="testi-role">CMO, Helix Technologies</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal reveal-delay-1">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"The music they produced for our product launch was unlike anything we'd heard before. Emotional, precise, and perfectly on-brand. Delivered ahead of schedule too."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SR</div>
+            <div>
+              <div class="testi-name">Sneha Rao</div>
+              <div class="testi-role">Creative Director, LUMINARY</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal reveal-delay-2">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"Our organic search traffic doubled in four months. Their SEO strategy combined with AI-powered content is now our single largest acquisition channel."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">PM</div>
+            <div>
+              <div class="testi-name">Priya Menon</div>
+              <div class="testi-role">Founder, Vanta Wellness</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-label reveal">Investment</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Transparent<br>
+        <span class="dim">Production Packages</span>
+      </h2>
+      <div class="pricing-grid">
+        <div class="price-card reveal">
+          <div class="price-plan">Studio</div>
+          <div class="price-amount">₹<span>Contact</span></div>
+          <p class="price-desc">For startups and solo creators entering the media space.</p>
+          <ul class="price-features">
+            <li>1 Service (Music OR Video OR Content)</li>
+            <li>Up to 3 Deliverables/month</li>
+            <li>AI-assisted production</li>
+            <li>Basic SEO audit</li>
+            <li class="off">Brand strategy</li>
+            <li class="off">Dedicated account manager</li>
+          </ul>
+          <button class="price-btn outline" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Enquire Now</button>
+        </div>
+        <div class="price-card popular reveal reveal-delay-1">
+          <div class="popular-badge">Most Popular</div>
+          <div class="price-plan">Production</div>
+          <div class="price-amount">₹<span>Custom</span></div>
+          <p class="price-desc">For growing brands that need full creative firepower.</p>
+          <ul class="price-features">
+            <li>3 Services (any combination)</li>
+            <li>Up to 10 Deliverables/month</li>
+            <li>Full AI + human production</li>
+            <li>SEO strategy & execution</li>
+            <li>Brand identity system</li>
+            <li class="off">Dedicated account manager</li>
+          </ul>
+          <button class="price-btn" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+        </div>
+        <div class="price-card reveal reveal-delay-2">
+          <div class="price-plan">Enterprise</div>
+          <div class="price-amount">₹<span>Bespoke</span></div>
+          <p class="price-desc">Full-service media partnership for ambitious organisations.</p>
+          <ul class="price-features">
+            <li>All 6 Services, unlimited scope</li>
+            <li>Unlimited deliverables</li>
+            <li>Priority production queue</li>
+            <li>Full SEO + content calendar</li>
+            <li>Complete brand ecosystem</li>
+            <li>Dedicated account manager</li>
+          </ul>
+          <button class="price-btn outline" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Talk to Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Let's Build<br>
+          <span class="dim">Something Bold.</span>
+        </h2>
+        <div class="contact-info">
+          <div class="contact-detail reveal">
+            <div class="contact-detail-label">Studio Location</div>
+            <div class="contact-detail-value">Indiranagar, Bengaluru<br>Karnataka, India 560038</div>
+          </div>
+          <div class="contact-detail reveal reveal-delay-1">
+            <div class="contact-detail-label">Email Us</div>
+            <div class="contact-detail-value">hello@jumpmediahouse.com</div>
+          </div>
+          <div class="contact-detail reveal reveal-delay-2">
+            <div class="contact-detail-label">Call / WhatsApp</div>
+            <div class="contact-detail-value">+91 98765 43210</div>
+          </div>
+        </div>
+        <div class="contact-social reveal reveal-delay-3">
+          <button class="social-btn" title="Instagram">📸</button>
+          <button class="social-btn" title="YouTube">▶️</button>
+          <button class="social-btn" title="LinkedIn">💼</button>
+          <button class="social-btn" title="X / Twitter">✖</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="contact-form reveal">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" id="fname" placeholder="Your name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" id="lname" placeholder="Last name"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" id="email" placeholder="your@email.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Service Interested In</label>
+            <select class="form-select" id="service">
+              <option value="">Select a service...</option>
+              <option>Music Production</option>
+              <option>Video Production</option>
+              <option>Advertisement Campaign</option>
+              <option>Brand Building</option>
+              <option>Content Production</option>
+              <option>SEO & Growth</option>
+              <option>Full Production Package</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Project Budget (INR)</label>
+            <select class="form-select" id="budget">
+              <option value="">Approximate budget...</option>
+              <option>₹50,000 – ₹1,00,000</option>
+              <option>₹1,00,000 – ₹5,00,000</option>
+              <option>₹5,00,000 – ₹20,00,000</option>
+              <option>₹20,00,000+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tell Us About Your Project</label>
+            <textarea class="form-textarea" id="message" placeholder="Describe your vision, timeline, and what success looks like for you..."></textarea>
+          </div>
+          <button class="form-submit" id="formSubmit">Send Project Brief →</button>
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✦</div>
+            <div style="font-family:var(--font-display);font-size:1rem;letter-spacing:0.1em;margin-bottom:0.75rem;">BRIEF RECEIVED</div>
+            <p class="form-success-text">Thank you for reaching out. Our creative team will review your brief and connect within 24 hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">JUMP <span>MEDIA</span></div>
+        <p class="footer-tagline">Where artificial intelligence meets real human artistry — building the media of tomorrow, today.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul class="footer-links">
+          <li><a href="#services">Music Production</a></li>
+          <li><a href="#services">Video Production</a></li>
+          <li><a href="#services">Advertisements</a></li>
+          <li><a href="#services">Brand Building</a></li>
+          <li><a href="#services">Content & SEO</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#why-section">About Jump</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#testimonials">Case Studies</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul class="footer-links">
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="#contact">hello@jumpmediahouse.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 JUMP MEDIA HOUSE. ALL RIGHTS RESERVED.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================
+       CURSOR
+    ============================================ */
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    /* ============================================
+       NAVBAR SCROLL
+    ============================================ */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ============================================
+       MOBILE NAV
+    ============================================ */
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const closeNav = document.getElementById('closeNav');
+    const mobLinks = document.querySelectorAll('.mob-link');
+    hamburgerBtn.addEventListener('click', () => mobileNav.classList.add('open'));
+    closeNav.addEventListener('click', () => mobileNav.classList.remove('open'));
+    mobLinks.forEach(l => l.addEventListener('click', () => mobileNav.classList.remove('open')));
+
+    /* ============================================
+       HERO CANVAS — PARTICLE FIELD
+    ============================================ */
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let W, H;
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function createParticles() {
+      particles = [];
+      const count = Math.floor((W * H) / 8000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.5 + 0.3,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.6 + 0.1,
+          gold: Math.random() > 0.7
+        });
+      }
+    }
+    createParticles();
+    window.addEventListener('resize', createParticles);
+
+    let mouseX = W/2, mouseY = H/2;
+    canvas.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouseX = e.clientX - r.left;
+      mouseY = e.clientY - r.top;
+    });
+
+    function drawCanvas() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Background gradient
+      const bg = ctx.createRadialGradient(W*0.5, H*0.4, 0, W*0.5, H*0.4, W*0.8);
+      bg.addColorStop(0, 'rgba(18,14,6,0.95)');
+      bg.addColorStop(1, 'rgba(6,6,10,1)');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i+1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(201,168,76,${0.08*(1-dist/120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw & update particles
+      particles.forEach(p => {
+        // Mouse attraction
+        const dx = mouseX - p.x, dy = mouseY - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 200) {
+          p.vx += dx/dist * 0.02;
+          p.vy += dy/dist * 0.02;
+        }
+        p.vx *= 0.99; p.vy *= 0.99;
+        p.x += p.vx; p.y += p.vy;
+
+        // Wrap
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = p.gold
+          ? `rgba(201,168,76,${p.opacity})`
+          : `rgba(240,237,230,${p.opacity * 0.5})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(drawCanvas);
+    }
+    drawCanvas();
+
+    /* ============================================
+       SCROLL REVEAL
+    ============================================ */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ============================================
+       STATS COUNTER
+    ============================================ */
+    const statNums = document.querySelectorAll('.stat-number[data-target]');
+    const statObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          let cur = 0;
+          const step = target / 60;
+          const interval = setInterval(() => {
+            cur = Math.min(cur + step, target);
+            el.textContent = Math.floor(cur) + (el.dataset.target === '98' ? '%' : '+');
+            if (cur >= target) clearInterval(interval);
+          }, 20);
+          statObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    statNums.forEach(el => statObserver.observe(el));
+
+    /* ============================================
+       PORTFOLIO FILTER
+    ============================================ */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        portfolioItems.forEach(item => {
+          const show = filter === 'all' || item.dataset.cat === filter;
+          item.style.opacity = show ? '1' : '0.2';
+          item.style.transform = show ? 'scale(1)' : 'scale(0.96)';
+          item.style.transition = 'all 0.4s ease';
+        });
+      });
+    });
+
+    /* ============================================
+       CONTACT FORM
+    ============================================ */
+    document.getElementById('formSubmit').addEventListener('click', () => {
+      const fname = document.getElementById('fname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const service = document.getElementById('service').value;
+      if (!fname || !email || !service) {
+        alert('Please fill in your name, email, and select a service.');
+        return;
+      }
+      document.getElementById('formSubmit').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    });
+
+    /* ============================================
+       GLITCH EFFECT ON LOGO HOVER
+    ============================================ */
+    document.querySelector('.nav-logo').addEventListener('mouseenter', function() {
+      this.style.animation = 'glitch 0.4s steps(1)';
+      setTimeout(() => this.style.animation = '', 400);
+    });
+  </script>
+</body>
+</html>

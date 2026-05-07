@@ -533,6 +533,65 @@
       letter-spacing: 0.08em; margin-bottom: 0.2rem;
     }
     .testi-role { font-size: 0.75rem; color: var(--muted); }
+    
+   
+    /* ============================================
+       YouTube Multi-Channel Buttons
+    ============================================ */
+    
+	.yt-label {
+	  font-family: var(--font-mono);
+	  font-size: 0.6rem; letter-spacing: 0.2em;
+	  text-transform: uppercase; color: var(--gold);
+	  margin-bottom: 0.75rem;
+	}
+	.yt-grid {
+	  display: flex; flex-direction: column; gap: 0.75rem;
+	}
+	.yt-btn {
+	  position: relative; display: flex;
+	  align-items: center;
+	  height: 72px; overflow: hidden;
+	  text-decoration: none;
+	  border: 1px solid var(--border);
+	  transition: border-color 0.3s, transform 0.3s;
+	}
+	.yt-btn:hover {
+	  border-color: var(--gold);
+	  transform: translateX(6px);
+	}
+	.yt-bg {
+	  position: absolute; inset: 0;
+	  width: 100%; height: 100%;
+	  object-fit: cover;
+	  transition: transform 0.5s var(--ease-smooth);
+	}
+	.yt-btn:hover .yt-bg { transform: scale(1.08); }
+	.yt-overlay {
+	  position: absolute; inset: 0;
+	  background: linear-gradient(to right, rgba(6,6,10,0.85) 40%, rgba(6,6,10,0.3));
+	}
+	.yt-info {
+	  position: relative; z-index: 1;
+	  display: flex; align-items: center;
+	  gap: 0.75rem; padding: 0 1.25rem;
+	  width: 100%;
+	}
+	.yt-icon {
+	  font-size: 1.1rem; flex-shrink: 0;
+	  filter: drop-shadow(0 0 6px rgba(201,168,76,0.6));
+	}
+	.yt-name {
+	  font-family: var(--font-display);
+	  font-size: 0.75rem; font-weight: 700;
+	  letter-spacing: 0.08em; color: var(--white);
+	  flex: 1;
+	}
+	.yt-sub {
+	  font-family: var(--font-mono);
+	  font-size: 0.58rem; letter-spacing: 0.12em;
+	  text-transform: uppercase; color: var(--gold);
+	}
 
     /* ============================================
        PRICING
@@ -627,6 +686,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1rem; text-decoration: none;
       transition: all 0.3s; cursor: pointer;
+      background-color: black
     }
     .social-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
     .contact-form { margin-top: 3rem; }
@@ -846,7 +906,6 @@
       <li><a href="#services">Services</a></li>
       <li><a href="#portfolio">Work</a></li>
       <li><a href="#process">Process</a></li>
-      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-cta" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Start a Project</button>
@@ -1066,6 +1125,44 @@
         Our Latest<br>
         <span class="dim">Productions</span>
       </h2>
+      
+      <div class="yt-channels">
+		  <p class="yt-label">YouTube Channels</p>
+		  <div class="yt-grid">
+		
+		    <a href="https://youtube.com/@RhythmCraftLab" target="_blank" rel="noopener" class="yt-btn">
+		      <img src="channel1-image.jpg" alt="Channel One" class="yt-bg" />
+		      <div class="yt-overlay"></div>
+		      <div class="yt-info">
+		        <span class="yt-icon">▶️</span>
+		        <span class="yt-name">Rhythm Craft Lab</span>
+		        <span class="yt-sub">Music & Video Production</span>
+		      </div>
+		    </a>
+		
+		    <a href="https://youtube.com/@LittlePinkTrumpets" target="_blank" rel="noopener" class="yt-btn">
+		      <img src="channel2-image.jpg" alt="Channel Two" class="yt-bg" />
+		      <div class="yt-overlay"></div>
+		      <div class="yt-info">
+		        <span class="yt-icon">▶️</span>
+		        <span class="yt-name">Little Pink Trumpets</span>
+		        <span class="yt-sub">Kids Production</span>
+		      </div>
+		    </a>
+		
+		    <a href="https://youtube.com/@NarrativeCraftLabs" target="_blank" rel="noopener" class="yt-btn">
+		      <img src="channel3-image.jpg" alt="Channel Three" class="yt-bg" />
+		      <div class="yt-overlay"></div>
+		      <div class="yt-info">
+		        <span class="yt-icon">▶️</span>
+		        <span class="yt-name">Narrative Craft Labs</span>
+		        <span class="yt-sub">Video Production</span>
+		      </div>
+		    </a>
+		
+		  </div>
+		</div>
+      
       <div class="portfolio-filter reveal">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="music">Music</button>
@@ -1217,23 +1314,22 @@
         </h2>
         <div class="contact-info">
           <div class="contact-detail reveal">
-            <div class="contact-detail-label">Studio Location</div>
-            <div class="contact-detail-value">Indiranagar, Bengaluru<br>Karnataka, India 560038</div>
+            <div class="contact-detail-label">Media House Location</div>
+            <div class="contact-detail-value">Sarjapur, Bengaluru<br>Karnataka, India 560038</div>
           </div>
           <div class="contact-detail reveal reveal-delay-1">
             <div class="contact-detail-label">Email Us</div>
-            <div class="contact-detail-value">hello@jumpmediahouse.com</div>
+            <div class="contact-detail-value">parul.kundra@gmail.com</div>
           </div>
           <div class="contact-detail reveal reveal-delay-2">
             <div class="contact-detail-label">Call / WhatsApp</div>
-            <div class="contact-detail-value">+91 98765 43210</div>
+            <div class="contact-detail-value">+91 89512 77290</div>
           </div>
         </div>
         <div class="contact-social reveal reveal-delay-3">
-          <button class="social-btn" title="Instagram">📸</button>
-          <button class="social-btn" title="YouTube">▶️</button>
-          <button class="social-btn" title="LinkedIn">💼</button>
-          <button class="social-btn" title="X / Twitter">✖</button>
+          <button class="social-btn" title="Instagram"><a href="https://instagram.com/rhythmcraftlab" target="_blank" rel="noopener" class="social-btn" title="Instagram">📸</a></button>
+          <button class="social-btn" title="YouTube"><a href="https://youtube.com/@RhythmCraftLab" target="_blank" rel="noopener" class="social-btn" title="YouTube">▶️</a></button>
+          <button class="social-btn" title="LinkedIn"><a href="https://www.linkedin.com/company/jump-media-house" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">💼</a></button>
         </div>
       </div>
 
@@ -1307,18 +1403,16 @@
           <li><a href="#why-section">About Jump</a></li>
           <li><a href="#process">Our Process</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#testimonials">Case Studies</a></li>
           <li><a href="#contact">Careers</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
         <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">X / Twitter</a></li>
-          <li><a href="#contact">hello@jumpmediahouse.com</a></li>
+          <li><a href="https://instagram.com/rhythmcraftlab">Instagram</a></li>
+          <li><a href="https://youtube.com/@RhythmCraftLab">YouTube</a></li>
+          <li><a href="https://www.linkedin.com/company/jump-media-house">LinkedIn</a></li>
+          <li><a href="#contact">parul.kundra@gmail.com</a></li>
         </ul>
       </div>
     </div>
